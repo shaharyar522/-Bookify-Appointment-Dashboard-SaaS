@@ -827,3 +827,37 @@
         document.addEventListener('DOMContentLoaded', function() {
             Bookify.init();
         });
+
+
+        //responisve
+  
+// Add this to your existing JavaScript to handle mobile navigation
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.createElement('button');
+    navToggle.className = 'nav-toggle';
+    navToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    
+    const headerContent = document.querySelector('.header-content');
+    if (headerContent) {
+        headerContent.appendChild(navToggle);
+        
+        const nav = document.querySelector('nav ul');
+        navToggle.addEventListener('click', function() {
+            nav.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                nav.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('nav') && !e.target.closest('.nav-toggle')) {
+                nav.classList.remove('active');
+            }
+        });
+    }
+});
