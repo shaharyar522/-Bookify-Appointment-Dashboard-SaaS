@@ -829,35 +829,66 @@
         });
 
 
-        //responisve
-  
-// Add this to your existing JavaScript to handle mobile navigation
-document.addEventListener('DOMContentLoaded', function() {
-    const navToggle = document.createElement('button');
-    navToggle.className = 'nav-toggle';
-    navToggle.innerHTML = '<i class="fas fa-bars"></i>';
-    
-    const headerContent = document.querySelector('.header-content');
-    if (headerContent) {
-        headerContent.appendChild(navToggle);
-        
-        const nav = document.querySelector('nav ul');
-        navToggle.addEventListener('click', function() {
-            nav.classList.toggle('active');
-        });
-        
-        // Close menu when clicking on a link
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                nav.classList.remove('active');
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('nav') && !e.target.closest('.nav-toggle')) {
-                nav.classList.remove('active');
+        // Enhanced Mobile Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get existing nav toggle button
+            const navToggle = document.getElementById('nav-toggle');
+            const nav = document.querySelector('nav ul');
+            
+            if (navToggle && nav) {
+                // Enhanced mobile navigation functionality
+                navToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    nav.classList.toggle('active');
+                    navToggle.classList.toggle('active');
+                    
+                    // Toggle hamburger icon
+                    const icon = navToggle.querySelector('i');
+                    if (nav.classList.contains('active')) {
+                        icon.className = 'fas fa-times';
+                    } else {
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+                
+                // Close menu when clicking on a link
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        nav.classList.remove('active');
+                        navToggle.classList.remove('active');
+                        const icon = navToggle.querySelector('i');
+                        icon.className = 'fas fa-bars';
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('nav') && !e.target.closest('.nav-toggle')) {
+                        nav.classList.remove('active');
+                        navToggle.classList.remove('active');
+                        const icon = navToggle.querySelector('i');
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+                
+                // Close menu on escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        navToggle.classList.remove('active');
+                        const icon = navToggle.querySelector('i');
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+                
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 767) {
+                        nav.classList.remove('active');
+                        navToggle.classList.remove('active');
+                        const icon = navToggle.querySelector('i');
+                        icon.className = 'fas fa-bars';
+                    }
+                });
             }
         });
-    }
-});
